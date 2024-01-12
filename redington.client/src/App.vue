@@ -20,7 +20,7 @@
             </template>
         </Card>
         <br />
-        <Button label="Calculate" @click="calculate"/>
+        <Button label="Calculate" @click="calculate" :disabled="!isFormValid"/>
     </span>
 </template>
 
@@ -38,6 +38,8 @@
         calculation: {}
         a: number
         b: number
+        aValid: boolean
+        bValid: boolean
     }
 
     enum Calculation {
@@ -59,7 +61,25 @@
                 type: Calculation.combined_with,
                 calculation: Calculation,
                 a: 0,
-                b: 0
+                b: 0,
+                aValid: true,
+                bValid: true,
+            }
+        },
+
+        computed: {
+            isFormValid(): boolean {
+                return this.aValid && this.bValid
+            }
+        },
+
+        // Pays attention to the validity of P(A) and P(B)
+        watch: {
+            a() {
+                this.aValid = this.a >= 0 && this.a <= 1
+            },
+            b() {
+                this.bValid = this.b >= 0 && this.b <= 1
             }
         },
         methods: {
