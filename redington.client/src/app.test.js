@@ -26,8 +26,11 @@ test('Select Button Changes', async () => {
     const wrapper = mount(App)
     const options = wrapper.findAll('.p-button');
 
+    expect(wrapper.find('#combined').exists()).toBe(true)
+    expect(wrapper.find('#either').exists()).toBe(false)
+
     await options.at(1).trigger('click');
 
-    expect(options.at(0).params).toBeTruthy();
-    expect(wrapper.emitted().update[0][0]).toBe("Either");
+    expect(wrapper.find('#combined').exists()).toBe(false)
+    expect(wrapper.find('#either').exists()).toBe(true)
 })
