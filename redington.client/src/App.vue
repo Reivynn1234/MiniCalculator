@@ -5,6 +5,7 @@
 
 <script lang="ts">
     import { defineComponent } from "vue";
+    import SelectButton from 'primevue/selectbutton'
 
     interface Data {
         options: string[]
@@ -13,7 +14,9 @@
 
     export default defineComponent({
         name: 'App',
-
+        components: {
+            SelectButton,
+        },
         data(): Data {
             return {
                 options: ["Combined With", "Either"],
