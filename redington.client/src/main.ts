@@ -1,6 +1,18 @@
 import './assets/main.css'
-
 import { createApp } from 'vue'
+import PrimeVue from 'primevue/config'
+import SelectButton from 'primevue/selectbutton'
+import Card from 'primevue/card';
 import App from './App.vue'
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 
-createApp(App).mount('#app')
+import 'primevue/resources/themes/lara-light-green/theme.css'
+
+const app = createApp(App);
+app.use(PrimeVue);
+app.component('SelectButton', SelectButton);
+app.component('Card', Card);
+app.component('InputText', InputText);
+app.component('Button', Button);
+app.mount('#app');
