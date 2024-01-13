@@ -42,6 +42,7 @@
         bValid: boolean
     }
 
+    //For the two calculations
     enum Calculation {
         combined_with = "Combined With",
         either = "Either",
@@ -67,6 +68,7 @@
             }
         },
 
+        //Checking validity of both inputs
         computed: {
             isFormValid(): boolean {
                 return this.aValid && this.bValid
