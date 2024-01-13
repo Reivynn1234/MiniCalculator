@@ -1,6 +1,6 @@
 <template>
     <span>
-        <SelectButton v-model="type" :options="options" aria-labelledby="basic" />
+        <SelectButton id="selectButton" v-model="type" :options="options" aria-labelledby="basic" />
         <br />
         <Card>
             <template #title>
@@ -20,7 +20,7 @@
             </template>
         </Card>
         <br />
-        <Button label="Calculate" @click="calculate" :disabled="!isFormValid"/>
+        <Button id="calculate" label="Calculate" @click="calculate" :disabled="!isFormValid"/>
     </span>
 </template>
 
