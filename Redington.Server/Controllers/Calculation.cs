@@ -31,7 +31,7 @@ namespace Redington.Server.Controllers
             
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("Either")]
         public IActionResult Either([FromBody] Either data)
         {
