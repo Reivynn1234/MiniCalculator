@@ -7,6 +7,7 @@ import App from './App.vue'
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
+import BlockUI from 'primevue/blockui';
 
 import 'primevue/resources/themes/lara-light-green/theme.css'
 
@@ -17,4 +18,5 @@ app.component('Card', Card);
 app.component('InputText', InputText);
 app.component('Button', Button);
 app.component('Dialog', Dialog);
+app.component('BlockUI', BlockUI);
 app.mount('#app');

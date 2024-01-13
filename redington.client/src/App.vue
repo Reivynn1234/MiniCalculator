@@ -1,32 +1,34 @@
 <template>
-    <span>
-        <SelectButton id="selectButton" v-model="type" :options="options" aria-labelledby="basic" />
-        <br />
-        <Card>
-            <template #title>
-                {{type}}
-            </template>
-            <template #content>
-                <p id="combined" v-if="type==calculation.combined_with">
-                    Probability of events A and B if independent: P(A)*P(B)
-                </p>
-                <p id="either" v-else>
-                    Probability of event A or B occuring: P(A) + P(B) - P(A)*P(B)
-                </p>
-                <br />
-                <div>P(A)<InputText id="a" v-model="a" /></div>
-                <br />
-                <div>P(B)<InputText id="b" v-model="b" /></div>
-            </template>
-        </Card>
-        <br />
-        <Button id="calculate" label="Calculate" @click="calculate" :disabled="!isFormValid" />
-    </span>
-    <Dialog v-model:visible="visible" modal header="Solution" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-        <p>
-            {{output}}
-        </p>
-    </Dialog>
+    <BlockUI :blocked="loading" fullScreen >
+        <span>
+            <SelectButton id="selectButton" v-model="type" :options="options" aria-labelledby="basic" />
+            <br />
+            <Card>
+                <template #title>
+                    {{type}}
+                </template>
+                <template #content>
+                    <p id="combined" v-if="type==calculation.combined_with">
+                        Probability of events A and B if independent: P(A)*P(B)
+                    </p>
+                    <p id="either" v-else>
+                        Probability of event A or B occuring: P(A) + P(B) - P(A)*P(B)
+                    </p>
+                    <br />
+                    <div>P(A)<InputText id="a" v-model="a" /></div>
+                    <br />
+                    <div>P(B)<InputText id="b" v-model="b" /></div>
+                </template>
+            </Card>
+            <br />
+            <Button id="calculate" label="Calculate" @click="calculate" :disabled="!isFormValid" />
+        </span>
+        <Dialog v-model:visible="visible" modal header="Solution" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+            <p>
+                {{output}}
+            </p>
+        </Dialog>
+    </BlockUI>
 </template>
 
 
@@ -48,6 +50,7 @@
         bValid: boolean
         visible: boolean
         output: string
+        loading: boolean
     }
 
     //For the two calculations
@@ -76,6 +79,7 @@
                 bValid: true,
                 visible: false,
                 output: "",
+                loading: false,
             }
         },
 
@@ -96,15 +100,15 @@
             }
         },
         methods: {
-            calculate(): void{
-                let result = this.calculationFetch()
-                result.then(value => {
-                    if (value == -1) {
-                        this.output = "Error with the calculation. Please try again."
-                    } else {
-                        this.output = "The calculation resulted in the value in 6 significant figures: " + Number(value.toPrecision(6))
-                    }
-                })
+            async calculate(): Promise<void>{
+                this.loading = true
+                let result = await this.calculationFetch()
+                if (result == -1) {
+                    this.output = "Error with the calculation. Please try again."
+                } else {
+                    this.output = "The calculation resulted in the value in 6 significant figures: " + Number(result.toPrecision(6))
+                }
+                this.loading = false
                 this.visible = true
 
             },
