@@ -2,7 +2,7 @@
 using CombinedWith = Redington.Server.Models.CombinedWith;
 namespace Redington.Server.Tests
 {
-    public class CombinedWithTest
+    public class CombinedWithTests
     {
         CombinedWith Data = new CombinedWith();
         [Fact]
