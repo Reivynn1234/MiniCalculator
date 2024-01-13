@@ -20,8 +20,13 @@
             </template>
         </Card>
         <br />
-        <Button id="calculate" label="Calculate" @click="calculate" :disabled="!isFormValid"/>
+        <Button id="calculate" label="Calculate" @click="calculate" :disabled="!isFormValid" />
     </span>
+    <Dialog v-model:visible="visible" modal header="Solution" :style="{ width: '50rem' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+        <p>
+            {{output}}
+        </p>
+    </Dialog>
 </template>
 
 
@@ -40,6 +45,8 @@
         b: number
         aValid: boolean
         bValid: boolean
+        visible: boolean
+        output: string
     }
 
     //For the two calculations
@@ -65,6 +72,8 @@
                 b: 0,
                 aValid: true,
                 bValid: true,
+                visible: false,
+                output: "",
             }
         },
 
@@ -85,8 +94,45 @@
             }
         },
         methods: {
-            calculate(): void {
-                console.log("pressed")
+            calculate(): void{
+                let result = this.calculationFetch()
+                result.then(value => {
+                    if (value == -1) {
+                        this.output = "Error with the calculation. Please try again."
+                    } else {
+                        this.output = "The calculation resulted in the value in 6 significant figures: " + Number(value.toPrecision(6))
+                    }
+                })
+                this.visible = true
+
+            },
+            async calculationFetch(): Promise<number> {
+                try {
+                    const response = await fetch('calculation/' + this.type.replace(/ /g, ''), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(
+                            {
+                                a: this.a,
+                                b: this.b
+                            }
+                        )
+                    })
+
+                    var status = await response.status;
+
+                    const responseData = await response.json();
+
+                    if (status < 200 || status >= 300) {
+                        throw new Error(responseData.msg || "Request failed with status: " + status);
+                    }
+
+                    return responseData
+                } catch (error) {
+                    return -1
+                }
             }
         }
     })
