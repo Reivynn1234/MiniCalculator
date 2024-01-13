@@ -85,8 +85,34 @@
             }
         },
         methods: {
-            calculate(): void {
-                console.log("pressed")
+            async calculate(): Promise<void> {
+                try {
+                    const response = await fetch('calculation/' + this.type.replace(/ /g, ''), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(
+                            {
+                                a: this.a,
+                                b: this.b
+                            }
+                        )
+                    })
+
+                    var status = await response.status;
+
+                    const responseData = await response.json();
+
+                    if (status < 200 || status >= 300) {
+                        throw new Error(responseData.msg || "Request failed with status: " + status);
+                    }
+
+                    console.log("Success:", response);
+                    console.log(responseData)
+                } catch (error) {
+                    console.error("Error:", error);
+                }
             }
         }
     })
