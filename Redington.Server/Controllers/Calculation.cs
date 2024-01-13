@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using Redington.Server.Models;
 
 namespace Redington.Server.Controllers
@@ -15,18 +16,33 @@ namespace Redington.Server.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("CombinedWith")]
         public IActionResult CombinedWith([FromBody] CombinedWith data)
         {
-            return Ok(data.Calculation());
+            if (data.IsValid())
+            {
+                return Ok(data.Calculation());
+            }
+            else
+            {
+                return BadRequest("Inputs are out of bounds");
+            }
+            
         }
 
         [HttpGet]
         [Route("Either")]
         public IActionResult Either([FromBody] Either data)
         {
-            return Ok(data.Calculation());
+            if (data.IsValid())
+            {
+                return Ok(data.Calculation());
+            }
+            else
+            {
+                return BadRequest("Inputs are out of bounds");
+            }
         }
     }
 }
