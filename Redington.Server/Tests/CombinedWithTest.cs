@@ -15,6 +15,12 @@ namespace Redington.Server.Tests
         }
 
         [Fact]
+        public void MissingData()
+        {
+            Assert.Throws<Exception>(() => Data.Calculation());
+        }
+
+        [Fact]
         public void InBounds()
         {
             Data.A = 0.5;

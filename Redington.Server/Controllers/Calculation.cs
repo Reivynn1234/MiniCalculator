@@ -20,14 +20,21 @@ namespace Redington.Server.Controllers
         [Route("CombinedWith")]
         public IActionResult CombinedWith([FromBody] CombinedWith data)
         {
-            if (data.IsValid())
+            try
             {
-                return Ok(data.Calculation());
-            }
-            else
+                if (data.IsValid())
+                {
+                    return Ok(data.Calculation());
+                }
+                else
+                {
+                    return BadRequest("Inputs are out of bounds");
+                }
+            } catch (Exception ex)
             {
-                return BadRequest("Inputs are out of bounds");
+                return BadRequest(ex.Message);
             }
+            
             
         }
 
@@ -35,13 +42,20 @@ namespace Redington.Server.Controllers
         [Route("Either")]
         public IActionResult Either([FromBody] Either data)
         {
-            if (data.IsValid())
+            try
             {
-                return Ok(data.Calculation());
+                if (data.IsValid())
+                {
+                    return Ok(data.Calculation());
+                }
+                else
+                {
+                    return BadRequest("Inputs are out of bounds");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("Inputs are out of bounds");
+                return BadRequest(ex.Message);
             }
         }
     }
