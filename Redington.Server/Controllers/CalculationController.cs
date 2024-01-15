@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using Redington.Server.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Redington.Server.Controllers
 {
