@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using Redington.Server.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Redington.Server.Controllers
 {
@@ -9,53 +10,39 @@ namespace Redington.Server.Controllers
     public class CalculationController : ControllerBase
     {
 
-        //private readonly ILogger<Calculation> _logger;
+        private DataService _service;
 
-        //public Calculation(ILogger<Calculation> logger)
-        //{
-        //    _logger = logger;
-        //}
+        public CalculationController()
+        {
+            _service = new DataService();
+        }
 
         [HttpPost]
         [Route("CombinedWith")]
-        public IActionResult CombinedWith([FromBody] CombinedWith data)
+        public IActionResult CombinedWith([FromBody] Data data)
         {
-            try
+            double result = _service.CombinedWith(data);
+            if (result == -1)
             {
-                if (data.IsValid())
-                {
-                    return Ok(data.Calculation());
-                }
-                else
-                {
-                    return BadRequest("Inputs are out of bounds");
-                }
-            } catch (Exception ex)
+                return BadRequest(new { success = false });
+            } else
             {
-                return BadRequest(ex.Message);
+                return Ok(new { success = true, val = result });
             }
-            
-            
         }
 
         [HttpPost]
         [Route("Either")]
-        public IActionResult Either([FromBody] Either data)
+        public IActionResult Either([FromBody] Data data)
         {
-            try
+            double result = _service.Either(data);
+            if (result == -1)
             {
-                if (data.IsValid())
-                {
-                    return Ok(data.Calculation());
-                }
-                else
-                {
-                    return BadRequest("Inputs are out of bounds");
-                }
+                return BadRequest(new { success = false});
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                return Ok(new { success = true, val = result });
             }
         }
     }
