@@ -36,7 +36,7 @@ test('Select Button Changes', async () => {
 })
 
 // Checks to see if input can take in values  
-test('Test Inputs valid', async () => {
+test('Test Inputs Valid', async () => {
 
     const wrapper = mount(App)
     const a = wrapper.find('#a');
