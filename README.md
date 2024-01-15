@@ -1,4 +1,4 @@
-# Redington - Developer Test - Calculator
+# MiniCalculator
 
 This is a Calculator web application which can do one of two calculations:
 1. CombinedWith: P(A)P(B)
