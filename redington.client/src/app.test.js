@@ -54,6 +54,8 @@ test('Test Inputs valid', async () => {
 
 })
 
+
+// Tests if inputs are invalid button is not available
 test('Test Inputs invalid', async () => {
 
     const wrapper = mount(App)
