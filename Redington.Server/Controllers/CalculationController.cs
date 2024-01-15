@@ -1,61 +1,49 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using Redington.Server.Models;
 
 namespace Redington.Server.Controllers
 {
+    //This controller deals with the API in regards to Data and doing calculations
     [ApiController]
     [Route("[controller]")]
     public class CalculationController : ControllerBase
     {
 
-        //private readonly ILogger<Calculation> _logger;
+        private DataService _service;
 
-        //public Calculation(ILogger<Calculation> logger)
-        //{
-        //    _logger = logger;
-        //}
-
-        [HttpPost]
-        [Route("CombinedWith")]
-        public IActionResult CombinedWith([FromBody] CombinedWith data)
+        public CalculationController()
         {
-            try
-            {
-                if (data.IsValid())
-                {
-                    return Ok(data.Calculation());
-                }
-                else
-                {
-                    return BadRequest("Inputs are out of bounds");
-                }
-            } catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
-            
+            _service = new DataService();
         }
 
         [HttpPost]
-        [Route("Either")]
-        public IActionResult Either([FromBody] Either data)
+        [Route("CombinedWith")]
+        public IActionResult CombinedWith([FromBody] Data data)
         {
-            try
+            double result = _service.CombinedWith(data);
+            return response(result);
+        }
+
+        
+
+        [HttpPost]
+        [Route("Either")]
+        public IActionResult Either([FromBody] Data data)
+        {
+            double result = _service.Either(data);
+            return response(result);
+        }
+
+        //Helper method to reduce code duplication
+        private IActionResult response(double result)
+        {
+            if (result == -1)
             {
-                if (data.IsValid())
-                {
-                    return Ok(data.Calculation());
-                }
-                else
-                {
-                    return BadRequest("Inputs are out of bounds");
-                }
+                return BadRequest(new { success = false });
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                return Ok(new { success = true, val = result });
             }
         }
     }

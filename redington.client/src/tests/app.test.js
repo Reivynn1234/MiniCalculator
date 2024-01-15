@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import App from './App.vue'
+import App from '../App.vue'
 
 //
 const originalConsoleError = console.error;
@@ -36,7 +36,7 @@ test('Select Button Changes', async () => {
 })
 
 // Checks to see if input can take in values  
-test('Test Inputs valid', async () => {
+test('Test Inputs Valid', async () => {
 
     const wrapper = mount(App)
     const a = wrapper.find('#a');
@@ -54,6 +54,8 @@ test('Test Inputs valid', async () => {
 
 })
 
+
+// Tests if inputs are invalid button is not available
 test('Test Inputs invalid', async () => {
 
     const wrapper = mount(App)

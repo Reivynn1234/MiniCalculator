@@ -39,6 +39,7 @@
     import Button from 'primevue/button';
     import InputText from 'primevue/inputtext';
     import Dialog from 'primevue/dialog';
+    import BlockUI from 'primevue/blockui';
 
     interface Data {
         options: string[]
@@ -66,7 +67,8 @@
             Card,
             InputText,
             Button,
-            Dialog
+            Dialog,
+            BlockUI
         },
         data(): Data {
             return {
@@ -104,7 +106,7 @@
                 this.loading = true
                 let result = await this.calculationFetch()
                 if (result == -1) {
-                    this.output = "Error with the calculation. Please try again."
+                    this.output = "Error with the calculation. Please make sure values are within 0 to 1."
                 } else {
                     this.output = "The calculation resulted in the value in 6 significant figures: " + Number(result.toPrecision(6))
                 }
@@ -127,15 +129,15 @@
                         )
                     })
 
-                    var status = await response.status;
+                    var status = await response.status
 
-                    const responseData = await response.json();
+                    const responseData = await response.json()
 
-                    if (status < 200 || status >= 300) {
-                        throw new Error(responseData.msg || "Request failed with status: " + status);
+                    if (status < 200 || status >= 300 || responseData.success == false) {
+                        throw new Error(responseData.msg || "Request failed with status: " + status)
                     }
 
-                    return responseData
+                    return responseData.val
                 } catch (error) {
                     return -1
                 }
