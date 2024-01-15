@@ -39,6 +39,7 @@
     import Button from 'primevue/button';
     import InputText from 'primevue/inputtext';
     import Dialog from 'primevue/dialog';
+    import BlockUI from 'primevue/blockui';
 
     interface Data {
         options: string[]
@@ -66,7 +67,8 @@
             Card,
             InputText,
             Button,
-            Dialog
+            Dialog,
+            BlockUI
         },
         data(): Data {
             return {
