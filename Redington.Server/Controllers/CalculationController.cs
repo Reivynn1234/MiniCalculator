@@ -6,15 +6,15 @@ namespace Redington.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class Calculation : ControllerBase
+    public class CalculationController : ControllerBase
     {
 
-        private readonly ILogger<Calculation> _logger;
+        //private readonly ILogger<Calculation> _logger;
 
-        public Calculation(ILogger<Calculation> logger)
-        {
-            _logger = logger;
-        }
+        //public Calculation(ILogger<Calculation> logger)
+        //{
+        //    _logger = logger;
+        //}
 
         [HttpPost]
         [Route("CombinedWith")]
