@@ -1,23 +1,17 @@
 ﻿using Xunit;
-using CombinedWith = Redington.Server.Models.CombinedWith;
+using Either = Redington.Server.Models.Either;
 namespace Redington.Server.Tests
 {
-    public class CombinedWithTests
+    public class EitherTests
     {
-        CombinedWith Data = new CombinedWith();
+        Either Data = new Either();
         [Fact]
         public void ValidCalculation()
         {
-            Data.A = 0.8;
-            Data.B = 0.2;
+            Data.A = 0.5;
+            Data.B = 0.5;
 
-            Assert.Equal(0.16, Data.Calculation(),2);
-        }
-
-        [Fact]
-        public void MissingData()
-        {
-            Assert.Throws<Exception>(() => Data.Calculation());
+            Assert.Equal(0.75, Data.Calculation(),2);
         }
 
         [Fact]
